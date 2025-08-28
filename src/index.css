@@ -1,0 +1,9 @@
+.pfpic {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+.iconButton {
+  background-color: white;
+  border: none;
+}
