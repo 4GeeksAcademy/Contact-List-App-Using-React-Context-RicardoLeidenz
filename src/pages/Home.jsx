@@ -21,13 +21,14 @@ export const Home = () => {
 			}
 		)
 	}
+
 	const postAgenda = async () => {
 		let options = {
 			method: "POST",
 			headers: {"content-type":"application/json"},
 			body: JSON.stringify(
 				{
-					"slug": "Ricardoleidenz2"
+					"slug": "Ricardoleidenz"
 				}
 			)
 		}
@@ -52,30 +53,20 @@ export const Home = () => {
 			}
 		)
 	}
-
-	const postContact = async () => {
-		let options = {
-			method: "POST",
-			headers: {"content-type":"application/json"},
-			body: JSON.stringify(
-				{
-					"name": "contact",
-					"phone": "12345",
-					"email": "myemail@email.com",
-					"address": "123 Easy st"
-				}
-			)
-		}
-		await fetch(store.baseURL + "/agendas/RicardoLeidenz/contacts",options)
-		.then( (response)=> response.json())
-		.then(
-			(data) =>{
-				console.log("New Contact posted: ", data)
-				getContacts()
-			}
+	const showContacts = () =>{
+		return(
+			<ul className="list-group">
+							{contacts.map((contact,index)=>{
+									return (
+										<li className="list-group-item row" key={index}>
+											<ContactCard name={contact.name} address={contact.address} phone={contact.phone} email={contact.email} contactID={contact.id}></ContactCard>
+										</li>
+									);
+								}
+							)}
+			</ul>
 		)
 	}
-
 	useEffect(
 		() => {
 			getAgendas()
@@ -84,32 +75,19 @@ export const Home = () => {
 	)
 	return (
 		<div className="text-center mt-5">
-			<h1>Hello World!!</h1>
-			<Link to="/profile" >Profile</Link>
-			<button 
-				className="btn btn-primary"
-				onClick={()=> postContact()}
-			>
-					Post New Contact
-			</button>
-			<button 
-				className="btn btn-primary" 
-				onClick={()=> {console.log("All contacts: ", store.contacts)}}
-			>
-				Show Contacts
-			</button>
+			<h1>CONTACT LIST</h1>
+
+			<Link to="/new-contact" >
+				<button 
+					className="btn btn-primary" 
+					onClick={()=> {console.log("All contacts: ", store.contacts)}}
+				>
+					Add New Contact
+				</button>
+			</Link>
 			<div className="row justify-content-center">
 				<div className="col-8">
-					<ul className="list-group">
-						{contacts.map((contact,index)=>{
-								return (
-									<li className="list-group-item row" key={index}>
-										<ContactCard name={contact.name} address={contact.address} phone={contact.phone} email={contact.email}></ContactCard>
-									</li>
-								);
-							}
-						)}
-					</ul>
+					{showContacts()}
 				</div>
 			</div>
 		</div>
