@@ -18,6 +18,7 @@ export const ContactCard = (props) => {
             console.log("Error deleting contact:",error)
         }
     }
+
     return (
         <div className="row">
             <div className="col-4">

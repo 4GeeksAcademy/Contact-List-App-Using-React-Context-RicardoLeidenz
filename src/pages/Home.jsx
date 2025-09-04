@@ -56,14 +56,17 @@ export const Home = () => {
 	const showContacts = () =>{
 		return(
 			<ul className="list-group">
-							{contacts.map((contact,index)=>{
+							{contacts.length > 0
+								? contacts.map((contact,index)=>{
 									return (
 										<li className="list-group-item row" key={index}>
 											<ContactCard name={contact.name} address={contact.address} phone={contact.phone} email={contact.email} contactID={contact.id}></ContactCard>
 										</li>
-									);
-								}
-							)}
+									)
+								})
+								: "No contacts yet"
+							}
+							
 			</ul>
 		)
 	}
