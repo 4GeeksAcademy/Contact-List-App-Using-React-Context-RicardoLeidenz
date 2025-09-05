@@ -1,9 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone, faLocationDot, faEnvelope, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import useGlobalReducer from "../hooks/useGlobalReducer"; 
+import{useNavigate } from "react-router-dom";
 
 export const ContactCard = (props) => {
     const {store, dispatch} =useGlobalReducer()
+	const navigate = useNavigate()
 
 	const getContacts = () => {
 		fetch(store.baseURL + "/agendas/RicardoLeidenz/contacts")
@@ -14,10 +16,11 @@ export const ContactCard = (props) => {
 					type: "set-contacts",
 					payload: data.contacts
 				})
-				setContacts(store.contacts)
 			}
 		)
 	}
+    
+    //Deletes the contact from the API
     const deleteContact = async (contactID) => {
         let options = {
             method: "DELETE"
@@ -27,12 +30,28 @@ export const ContactCard = (props) => {
             await fetch(store.baseURL+"/agendas/RicardoLeidenz/contacts/"+contactID, options)
             .then(() => {
                 console.log("Deleted tak succesfully");
+                //Calls getContacts to update the API after deleting so it refreshes
                 getContacts()
             })
         }
         catch(error){
-            console.log("Error deleting contact:",error)
+            console.log("Error deleting contact:",error);
         }
+    }
+
+    const editContact = () => {
+        //Saves the current contact in the store to show same info in the newContact page to edit
+        dispatch({
+            type: "select-contact",
+            payload: {
+                id: props.contactID,
+                name: props.name,
+                phone: props.phone,
+                email: props.email,
+                address: props.address
+            }
+        })
+        navigate("/new-contact");
     }
 
     return (
@@ -47,7 +66,7 @@ export const ContactCard = (props) => {
                 <p><FontAwesomeIcon icon={faEnvelope} />Email: {props.email}</p>
             </div>
             <div className="col-2">
-                <button className="iconButton"><FontAwesomeIcon icon={faPencil} /></button>
+                <button className="iconButton"><FontAwesomeIcon icon={faPencil} onClick={()=>editContact()}/></button>
                 <button className="iconButton"><FontAwesomeIcon icon={faTrashCan} onClick={()=>deleteContact(props.contactID)}/></button>
             </div>
         </div>

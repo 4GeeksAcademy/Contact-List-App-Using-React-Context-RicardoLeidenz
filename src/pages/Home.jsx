@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer"; 
 import { useState, useEffect } from "react"
 import { ContactCard } from "../components/ContactCard";
+
 
 export const Home = () => {
 	const {store, dispatch} =useGlobalReducer()
@@ -48,7 +49,6 @@ export const Home = () => {
 					type: "set-contacts",
 					payload: data.contacts
 				})
-				setContacts(store.contacts)
 			}
 		)
 	}
