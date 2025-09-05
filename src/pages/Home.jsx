@@ -5,7 +5,6 @@ import { ContactCard } from "../components/ContactCard";
 
 export const Home = () => {
 	const {store, dispatch} =useGlobalReducer()
-	const [contacts, setContacts] = useState([])
 
 	const getAgendas = async () => {
 		await fetch(store.baseURL + "/agendas")
@@ -56,8 +55,8 @@ export const Home = () => {
 	const showContacts = () =>{
 		return(
 			<ul className="list-group">
-							{contacts.length > 0
-								? contacts.map((contact,index)=>{
+							{store.contacts.length > 0
+								? store.contacts.map((contact,index)=>{
 									return (
 										<li className="list-group-item row" key={index}>
 											<ContactCard name={contact.name} address={contact.address} phone={contact.phone} email={contact.email} contactID={contact.id}></ContactCard>
@@ -78,17 +77,16 @@ export const Home = () => {
 	)
 	return (
 		<div className="text-center mt-5">
-			<h1>CONTACT LIST</h1>
-
+			<h1 className="bg-dark border-solid w-75 m-auto text-white">CONTACT LIST</h1>
 			<Link to="/new-contact" >
 				<button 
-					className="btn btn-primary" 
+					className="btn btn-primary m-5 btn-lg" 
 					onClick={()=> {console.log("All contacts: ", store.contacts)}}
 				>
 					Add New Contact
 				</button>
 			</Link>
-			<div className="row justify-content-center">
+			<div className="row justify-content-center bg-light py-5">
 				<div className="col-8">
 					{showContacts()}
 				</div>

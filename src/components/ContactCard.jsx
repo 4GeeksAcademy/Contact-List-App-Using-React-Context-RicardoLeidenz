@@ -5,6 +5,19 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 export const ContactCard = (props) => {
     const {store, dispatch} =useGlobalReducer()
 
+	const getContacts = () => {
+		fetch(store.baseURL + "/agendas/RicardoLeidenz/contacts")
+		.then( (response)=> response.json())
+		.then(
+			(data) =>{
+				dispatch({
+					type: "set-contacts",
+					payload: data.contacts
+				})
+				setContacts(store.contacts)
+			}
+		)
+	}
     const deleteContact = async (contactID) => {
         let options = {
             method: "DELETE"
@@ -12,7 +25,10 @@ export const ContactCard = (props) => {
         try{
             console.log("Deleted ToDo:",contactID)
             await fetch(store.baseURL+"/agendas/RicardoLeidenz/contacts/"+contactID, options)
-            .then(() => console.log("Deleted tak succesfully"))
+            .then(() => {
+                console.log("Deleted tak succesfully");
+                getContacts()
+            })
         }
         catch(error){
             console.log("Error deleting contact:",error)
