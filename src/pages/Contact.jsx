@@ -129,6 +129,7 @@ export const Contact = () => {
                 <div className="p-3">
                     <button 
                         type="submit" 
+                        onSubmit={()=>postContact()} 
                         onClick={()=>postContact()} 
                         className={ id == "" ? "btn btn-success" : "btn btn-warning"}
                     >
