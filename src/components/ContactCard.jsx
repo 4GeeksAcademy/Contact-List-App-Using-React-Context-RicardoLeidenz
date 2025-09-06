@@ -2,23 +2,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone, faLocationDot, faEnvelope, faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import useGlobalReducer from "../hooks/useGlobalReducer"; 
 import{useNavigate } from "react-router-dom";
+import { getContacts } from "../globalFunctions";
 
 export const ContactCard = (props) => {
     const {store, dispatch} =useGlobalReducer()
 	const navigate = useNavigate()
-
-	const getContacts = () => {
-		fetch(store.baseURL + "/agendas/RicardoLeidenz/contacts")
-		.then( (response)=> response.json())
-		.then(
-			(data) =>{
-				dispatch({
-					type: "set-contacts",
-					payload: data.contacts
-				})
-			}
-		)
-	}
     
     //Deletes the contact from the API
     const deleteContact = async (contactID) => {
@@ -31,7 +19,7 @@ export const ContactCard = (props) => {
             .then(() => {
                 console.log("Deleted tak succesfully");
                 //Calls getContacts to update the API after deleting so it refreshes
-                getContacts()
+			    getContacts(store.baseURL,dispatch);
             })
         }
         catch(error){
@@ -51,7 +39,7 @@ export const ContactCard = (props) => {
                 address: props.address
             }
         })
-        navigate("/new-contact");
+        navigate("/contact");
     }
 
     return (

@@ -1,12 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer"; 
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { ContactCard } from "../components/ContactCard";
+import { getContacts } from "../globalFunctions";
 
 
 export const Home = () => {
-	const {store, dispatch} =useGlobalReducer()
+	const {store, dispatch} =useGlobalReducer();
 
+	//Get list of agendas and create one if inexistent
 	const getAgendas = async () => {
 		await fetch(store.baseURL + "/agendas")
 		.then( (response)=> response.json())
@@ -21,7 +23,7 @@ export const Home = () => {
 			}
 		)
 	}
-
+	//Create new agenda
 	const postAgenda = async () => {
 		let options = {
 			method: "POST",
@@ -40,18 +42,7 @@ export const Home = () => {
 			}
 		)
 	}
-	const getContacts = () => {
-		fetch(store.baseURL + "/agendas/RicardoLeidenz/contacts")
-		.then( (response)=> response.json())
-		.then(
-			(data) =>{
-				dispatch({
-					type: "set-contacts",
-					payload: data.contacts
-				})
-			}
-		)
-	}
+	//Generates list of contacts 
 	const showContacts = () =>{
 		return(
 			<ul className="list-group">
@@ -71,14 +62,14 @@ export const Home = () => {
 	}
 	useEffect(
 		() => {
-			getAgendas()
-			getContacts()
+			getAgendas();
+			getContacts(store.baseURL,dispatch);
 		},[]
 	)
 	return (
 		<div className="text-center mt-5">
 			<h1 className="bg-dark border-solid w-75 m-auto text-white">CONTACT LIST</h1>
-			<Link to="/new-contact" >
+			<Link to="/contact" >
 				<button 
 					className="btn btn-primary m-5 btn-lg" 
 					onClick={()=> {console.log("All contacts: ", store.contacts)}}
