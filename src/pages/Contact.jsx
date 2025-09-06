@@ -75,6 +75,9 @@ export const Contact = () => {
 			getContacts(store.baseURL,dispatch);
             navigate("/")
         }
+        else{
+
+        }
     }
 
     useEffect(
@@ -84,36 +87,55 @@ export const Contact = () => {
         },[]
     )
     return (
-        <div className="bg-light text-center mt-5">
-            <div className="text-center m-5">
-                <input 
-                    type="text" 
-                    placeholder="Enter Full Name" 
-                    onChange={e => setName(e.target.value)} 
-                    value={name} 
-                />
-                <input 
-                    type="text" 
-                    placeholder="Enter Address" 
-                    onChange={e => setAddress(e.target.value)} 
-                    value={address} 
-                />
-            </div>
-            <div className="text-center m-5">
-                <input 
-                    type="tel" 
-                    placeholder="(xxx)xxx-xxxxx" 
-                    onChange={e => setPhone(e.target.value)} 
-                    value={phone} 
-                />
-                <input 
-                    type="email" 
-                    placeholder="Sample@email.com" 
-                    onChange={e => setEmail(e.target.value)} 
-                    value={email} 
-                />
-            </div>
-                <button type="button" onClick={()=>postContact()} className={ id == "" ? "btn btn-success" : "btn btn-warning"}>{ id == "" ? "Submit Contact" : "Edit Contact"}</button>
+        <div className="bg-light text-center m-5">
+            <h1 className="pt-3">Contact</h1>
+            <form class="row needs-validation" novalidate>
+                <div className="p-3">
+                    <input 
+                        type="text" 
+                        placeholder="Enter Full Name" 
+                        onChange={e => setName(e.target.value)} 
+                        value={name} 
+                        className="m-2"
+                        required
+                    />
+                    <input 
+                        type="text" 
+                        placeholder="Enter Address" 
+                        onChange={e => setAddress(e.target.value)} 
+                        value={address} 
+                        className="m-2"
+                        required
+                    />
+                </div>
+                <div className="p-3">
+                    <input 
+                        type="tel" 
+                        placeholder="(xxx)xxx-xxxxx"
+                        onChange={e => setPhone(e.target.value)} 
+                        value={phone} 
+                        className="m-2"
+                        required
+                    />
+                    <input 
+                        type="email" 
+                        placeholder="Sample@email.com" 
+                        onChange={e => setEmail(e.target.value)} 
+                        value={email} 
+                        className="m-2"
+                        required
+                    />
+                </div>
+                <div className="p-3">
+                    <button 
+                        type="submit" 
+                        onClick={()=>postContact()} 
+                        className={ id == "" ? "btn btn-success" : "btn btn-warning"}
+                    >
+                        { id == "" ? "Submit Contact" : "Edit Contact"}
+                    </button>
+                </div>
+            </form>
         </div>
     );
 }; 
